@@ -18,7 +18,7 @@ describe "Quickbooks::Model::CreditMemo" do
   it "should set the transaction date" do
     credit_memo = Quickbooks::Model::CreditMemo.new
     current = Time.now
-    credit_memo.placed_on = current
+    credit_memo.txn_date = current
     credit_memo.to_xml.to_s.should =~ /TxnDate.*#{current.to_s[0..-6]}/ # shave off utc offset as Travis doesn't like
   end
 
@@ -32,6 +32,15 @@ describe "Quickbooks::Model::CreditMemo" do
     tax_detail.txn_tax_code_id = 5
     credit_memo.txn_tax_detail = tax_detail
     credit_memo.to_xml.to_s.should =~ /TxnTaxCodeRef\>5\</
+  end
+
+  describe "#global_tax_calculation" do
+    subject { Quickbooks::Model::CreditMemo.new }
+    it_should_behave_like "a model with a valid GlobalTaxCalculation", "TaxIncluded"
+    it_should_behave_like "a model with a valid GlobalTaxCalculation", "TaxExcluded"
+    it_should_behave_like "a model with a valid GlobalTaxCalculation", "NotApplicable"
+    it_should_behave_like "a model with a valid GlobalTaxCalculation", ""
+    it_should_behave_like "a model with an invalid GlobalTaxCalculation"
   end
 
 end

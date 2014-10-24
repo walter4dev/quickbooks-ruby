@@ -77,6 +77,7 @@ describe "Quickbooks::Model::Purchase" do
     purchase.account_ref.name.should == "Test Purchase Bank Account"
     purchase.entity_ref.value.should == "1"
     purchase.entity_ref.name.should == "Mr V3 Service Customer Jr2"
+    purchase.entity_ref.type.should == "Customer"
 
     purchase.remit_to_address.id.should == 2
     purchase.remit_to_address.line1.should == "Google"
@@ -165,5 +166,14 @@ describe "Quickbooks::Model::Purchase" do
     line1.account_based_expense_line_detail.account_ref.name.should == "Advertising"
     line1.account_based_expense_line_detail.billable_status.should == "NotBillable"
     line1.account_based_expense_line_detail.tax_code_ref.value.should == "NON"
+  end
+
+  describe "#global_tax_calculation" do
+    subject { Quickbooks::Model::Purchase.new }
+    it_should_behave_like "a model with a valid GlobalTaxCalculation", "TaxIncluded"
+    it_should_behave_like "a model with a valid GlobalTaxCalculation", "TaxExcluded"
+    it_should_behave_like "a model with a valid GlobalTaxCalculation", "NotApplicable"
+    it_should_behave_like "a model with a valid GlobalTaxCalculation", ""
+    it_should_behave_like "a model with an invalid GlobalTaxCalculation"
   end
 end

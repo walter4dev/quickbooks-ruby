@@ -44,6 +44,17 @@ Gems:
 * `nokogiri` : XML parsing
 * `active_model` : For validations
 
+## Sandbox Mode
+An API app provides two sets of OAuth key for production and development. Since October 22, 2014, only [Sandbox Companies](https://developer.intuit.com/docs/0025_quickbooksapi/0050_data_services)
+are allowed to connected to the QBO via the development key. The end-point for sandbox mode is https://sandbox-quickbooks.api.intuit.com.
+
+By default, the gem runs in production mode. If you prefer to develop / test the integration with the development key,
+you need to config the gem to run in sandbox mode:
+
+```ruby
+Quickbooks.sandbox_mode = true
+```
+
 ## Getting Started & Initiating Authentication Flow with Intuit
 
 What follows is an example using Rails but the principles can be adapted to any other framework / pure Ruby.
@@ -301,7 +312,7 @@ puts created_invoice.id
 #Invoices, SalesReceipts etc can also be defined in a single command
 salesreceipt = Quickbooks::Model::SalesReceipt.new({
   customer_id: 99,
-  placed_on: Date.civil(2013, 11, 20),
+  txn_date: Date.civil(2013, 11, 20),
   payment_ref_number: "111", #optional payment reference number/string - e.g. stripe token
   deposit_to_account_id: 222, #The ID of the Account entity you want the SalesReciept to be deposited to
   payment_method_id: 333 #The ID of the PaymentMethod entity you want to be used for this transaction
@@ -455,22 +466,7 @@ Vendor Credit     | yes    | yes    | yes   | yes    | yes         |
 Cody Caughlan
 
 ## Contributors
-`quickbooks-ruby` has been a community effort and I am thankful for all the amazing contributors. If I have missed
-your name please email me or submit a Pull Request.
-
-* Bruno Buccolo
-* Christian Pelczarski
-* Eggy
-* Evan Walsh
-* Exe Curia
-* Jason Dew
-* jleo3
-* Joe Wright
-* Josh Wilson
-* Pavel Pachkovskij
-* Sean Xie
-* Steven Chau
-* Washington Luiz
+`quickbooks-ruby` has been a community effort and I am extremely thankful for all the [amazing contributors](https://github.com/ruckus/quickbooks-ruby/network/members).
 
 ## License
 

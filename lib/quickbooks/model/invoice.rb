@@ -9,6 +9,8 @@ module Quickbooks
   module Model
     class Invoice < BaseModel
       include DocumentNumbering
+      include GlobalTaxCalculation
+
       #== Constants
       REST_RESOURCE = 'invoice'
       XML_COLLECTION_NODE = "Invoice"
@@ -23,6 +25,7 @@ module Quickbooks
       xml_accessor :doc_number, :from => 'DocNumber'
       xml_accessor :txn_date, :from => 'TxnDate', :as => Date
       xml_accessor :currency_ref, :from => 'CurrencyRef', :as => BaseReference
+      xml_accessor :exchange_rate, :from => 'ExchangeRate', :as => BigDecimal, :to_xml => to_xml_big_decimal
       xml_accessor :private_note, :from => 'PrivateNote'
       xml_accessor :linked_transactions, :from => 'LinkedTxn', :as => [LinkedTransaction]
       xml_accessor :line_items, :from => 'Line', :as => [InvoiceLineItem]
@@ -39,6 +42,7 @@ module Quickbooks
       xml_accessor :tracking_num, :from => 'TrackingNum'
       xml_accessor :ar_account_ref, :from => 'ARAccountRef', :as => BaseReference
       xml_accessor :total_amount, :from => 'TotalAmt', :as => BigDecimal, :to_xml => to_xml_big_decimal
+      xml_accessor :home_total_amount, :from => 'HomeTotalAmt', :as => BigDecimal, :to_xml => to_xml_big_decimal
       xml_accessor :apply_tax_after_discount?, :from => 'ApplyTaxAfterDiscount'
       xml_accessor :print_status, :from => 'PrintStatus'
       xml_accessor :email_status, :from => 'EmailStatus'

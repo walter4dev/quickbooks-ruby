@@ -18,6 +18,7 @@ require 'quickbooks/model/validator'
 require 'quickbooks/model/base_model'
 require 'quickbooks/model/base_reference'
 require 'quickbooks/model/document_numbering'
+require 'quickbooks/model/global_tax_calculation'
 require 'quickbooks/model/access_token_response'
 require 'quickbooks/model/meta_data'
 require 'quickbooks/model/class'
@@ -116,9 +117,19 @@ require 'quickbooks/service/preferences'
 require 'quickbooks/service/refund_receipt'
 
 module Quickbooks
+  @@sandbox_mode = false
+
   @@logger = nil
 
   class << self
+    def sandbox_mode
+      @@sandbox_mode
+    end
+
+    def sandbox_mode=(sandbox_mode)
+      @@sandbox_mode = sandbox_mode
+    end
+
     def logger
       @@logger ||= ::Logger.new($stdout) # TODO: replace with a real log file
     end
